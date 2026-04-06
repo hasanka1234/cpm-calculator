@@ -3,108 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liquid ROI | Ultimate Ad Calculator</title>
+    <title>Fluid ROI | Ultra Premium Ad Calculator</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
         /* === BASE & RESET === */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
-        body { background-color: #020617; color: #f8fafc; min-height: 100vh; overflow-x: hidden; position: relative; display: flex; flex-direction: column; align-items: center; padding: 50px 20px; }
+        body { background-color: #020617; color: #f8fafc; min-height: 100vh; overflow-x: hidden; position: relative; display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
         
-        /* === ANIMATED LIQUID BACKGROUND === */
-        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; background: #020617; }
-        .orb { position: absolute; border-radius: 50%; filter: blur(120px); opacity: 0.5; animation: floatOrb 15s infinite alternate ease-in-out; }
-        .orb-1 { width: 500px; height: 500px; background: #6366f1; top: -15%; left: -10%; }
-        .orb-2 { width: 600px; height: 600px; background: #d946ef; bottom: -20%; right: -15%; animation-duration: 20s; animation-direction: alternate-reverse; }
-        .orb-3 { width: 400px; height: 400px; background: #0ea5e9; top: 30%; left: 35%; animation-duration: 25s; }
+        /* === FLUID LIQUID BACKGROUND (MORPHING BLOBS) === */
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; background: #02020a; }
+        .liquid-blob { 
+            position: absolute; filter: blur(90px); opacity: 0.85; mix-blend-mode: screen;
+            animation: fluidShape 15s infinite alternate ease-in-out;
+        }
+        .blob-1 { width: 600px; height: 600px; background: linear-gradient(135deg, #6366f1, #3b82f6); top: -10%; left: -10%; }
+        .blob-2 { width: 700px; height: 700px; background: linear-gradient(135deg, #d946ef, #8b5cf6); bottom: -20%; right: -10%; animation-duration: 20s; animation-direction: alternate-reverse; }
+        .blob-3 { width: 500px; height: 500px; background: linear-gradient(135deg, #0ea5e9, #2dd4bf); top: 20%; left: 30%; animation-duration: 25s; }
         
-        @keyframes floatOrb { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(80px, 80px) scale(1.1); } }
+        /* Fluid Morphing Animation */
+        @keyframes fluidShape {
+            0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(0, 0) scale(1); }
+            34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; transform: translate(50px, -50px) scale(1.1); }
+            67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; transform: translate(-30px, 30px) scale(0.95); }
+            100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; transform: translate(0, 0) scale(1); }
+        }
 
-        /* === MAIN LIQUID GLASS CONTAINER === */
+        /* === HARD LIQUID GLASS CONTAINER === */
         .dashboard {
-            width: 100%; max-width: 1050px; 
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            border-radius: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+            width: 100%; max-width: 1100px; 
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 2px 20px rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px) saturate(150%); -webkit-backdrop-filter: blur(40px) saturate(150%);
             padding: 50px; position: relative; z-index: 10;
-            transition: all 0.4s ease;
         }
 
         /* === HEADER === */
-        .header { text-align: center; margin-bottom: 40px; }
-        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 50px; font-size: 0.8rem; color: #94a3b8; letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase; font-weight: 500;}
+        .header { text-align: center; margin-bottom: 50px; }
+        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; font-size: 0.85rem; color: #cbd5e1; letter-spacing: 1px; margin-bottom: 20px; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2);}
         .pulse { width: 8px; height: 8px; background-color: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); } 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); } }
         
-        h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 10px; background: linear-gradient(135deg, #fff 0%, #94a3b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        p.subtitle { color: #64748b; font-size: 1.1rem; }
+        h1 { font-size: 4rem; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 15px; background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.subtitle { color: #94a3b8; font-size: 1.15rem; max-width: 600px; margin: 0 auto; }
 
         /* === LAYOUT GRID === */
-        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; } h1 { font-size: 2.5rem; } .dashboard { padding: 30px; } }
+        .grid-container { display: grid; grid-template-columns: 1fr 1.1fr; gap: 50px; margin-bottom: 40px; }
+        @media (max-width: 850px) { .grid-container { grid-template-columns: 1fr; } h1 { font-size: 3rem; } .dashboard { padding: 30px; border-radius: 30px; } }
 
-        /* === INPUT SECTION === */
-        .input-group { margin-bottom: 22px; }
-        label { display: flex; justify-content: space-between; font-size: 0.9rem; color: #cbd5e1; margin-bottom: 8px; font-weight: 500; }
+        /* === ULTRA SMOOTH INPUTS === */
+        .input-group { margin-bottom: 25px; position: relative; }
+        label { display: flex; justify-content: space-between; font-size: 0.95rem; color: #e2e8f0; margin-bottom: 10px; font-weight: 500; }
         .curr-label { color: #38bdf8; font-weight: 700; }
-        input, select {
-            width: 100%; padding: 18px; border-radius: 16px;
-            background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #ffffff; font-size: 1.2rem; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-        }
-        input:focus, select:focus { border-color: #38bdf8; box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1), inset 0 2px 4px rgba(0,0,0,0.2); background: rgba(15, 23, 42, 0.8); transform: translateY(-2px); }
         
+        input, select {
+            width: 100%; padding: 20px; border-radius: 20px;
+            background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff; font-size: 1.3rem; font-weight: 500; outline: none; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+        }
+        input:hover, select:hover { background: rgba(0, 0, 0, 0.3); }
+        input:focus, select:focus { 
+            border-color: #8b5cf6; 
+            box-shadow: 0 0 0 5px rgba(139, 92, 246, 0.15), inset 0 2px 10px rgba(0,0,0,0.3); 
+            background: rgba(15, 23, 42, 0.8); transform: scale(1.02); 
+        }
+
         /* === RESULTS SECTION === */
         .results-grid { display: flex; flex-direction: column; gap: 20px; }
         .result-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-            border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 25px 30px;
-            position: relative; overflow: hidden; transition: 0.3s;
+            background: linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 24px; padding: 30px;
+            position: relative; overflow: hidden; transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .result-card:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); }
-        .res-title { font-size: 0.85rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; font-weight: 700; }
-        .res-val { font-size: 2.5rem; font-weight: 900; color: #ffffff; text-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .result-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .res-title { font-size: 0.9rem; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; font-weight: 700; }
+        .res-val { font-size: 3rem; font-weight: 900; color: #ffffff; text-shadow: 0 4px 20px rgba(0,0,0,0.5); letter-spacing: -1px;}
         
         .profit-positive { color: #10b981; } 
-        .profit-negative { color: #ef4444; } 
-        .badge-pill { font-size: 0.9rem; font-weight: 700; padding: 6px 12px; border-radius: 10px; margin-left: 15px; vertical-align: middle; }
+        .profit-negative { color: #f43f5e; } 
+        .badge-pill { font-size: 1rem; font-weight: 700; padding: 8px 16px; border-radius: 12px; margin-left: 15px; vertical-align: middle; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
         /* === ACTIONS (SHARE & CSV) === */
-        .actions { display: flex; gap: 15px; margin-top: 20px; }
-        .btn { flex: 1; padding: 16px; border-radius: 14px; border: none; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-primary { background: linear-gradient(135deg, #38bdf8, #818cf8); color: white; box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5); }
-        .btn-secondary { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+        .actions { display: flex; gap: 15px; margin-top: 10px; }
+        .btn { flex: 1; padding: 18px; border-radius: 16px; border: none; font-size: 1.05rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-primary { background: linear-gradient(135deg, #8b5cf6, #3b82f6); color: white; box-shadow: 0 10px 25px rgba(139, 92, 246, 0.3); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5); }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);}
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); border-color: rgba(255,255,255,0.3); }
 
-        /* === EXPLANATION SECTION === */
-        .explanation {
-            background: rgba(0,0,0,0.2); border-radius: 20px; padding: 25px; margin-top: 30px;
-            border-left: 4px solid #818cf8; font-size: 1.05rem; line-height: 1.6; color: #cbd5e1;
+        /* === EQUATION & EXPLANATION SECTION === */
+        .analysis-section {
+            background: rgba(0,0,0,0.3); border-radius: 30px; padding: 40px; margin-top: 20px;
+            border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden;
         }
-        .highlight { color: #fff; font-weight: 700; }
+        
+        .formula-box {
+            background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.2);
+            padding: 20px; border-radius: 20px; margin-bottom: 25px; text-align: center;
+        }
+        .formula-title { font-size: 0.85rem; color: #a5b4fc; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 700; }
+        .formula-eq { font-size: 1.5rem; font-weight: 300; color: #e2e8f0; margin-bottom: 15px; font-style: italic; }
+        .formula-live { font-size: 1.8rem; font-weight: 700; color: #fff; background: rgba(139, 92, 246, 0.1); padding: 15px; border-radius: 15px; display: inline-block; border: 1px solid rgba(139, 92, 246, 0.3); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .highlight-num { color: #38bdf8; }
+        .highlight-ans { color: #10b981; }
+
+        .explanation-text { font-size: 1.15rem; line-height: 1.8; color: #cbd5e1; }
+        .hl { color: #fff; font-weight: 700; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 6px; }
         
         /* Toast Notification */
-        #toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #10b981; color: white; padding: 12px 24px; border-radius: 50px; font-weight: 600; transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 100; box-shadow: 0 10px 30px rgba(16,185,129,0.4); }
-        #toast.show { bottom: 30px; }
+        #toast { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background: #8b5cf6; color: white; padding: 15px 30px; border-radius: 50px; font-weight: 700; font-size: 1.1rem; transition: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 100; box-shadow: 0 15px 40px rgba(139,92,246,0.5); }
+        #toast.show { bottom: 40px; }
     </style>
 </head>
 <body>
 
 <div class="ambient-bg">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
+    <div class="liquid-blob blob-1"></div>
+    <div class="liquid-blob blob-2"></div>
+    <div class="liquid-blob blob-3"></div>
 </div>
 
 <div class="dashboard">
     <div class="header">
-        <div class="badge" id="geo-status"><div class="pulse"></div> Global Network</div>
-        <h1>Liquid ROI</h1>
-        <p class="subtitle">Enter metrics to calculate CPM, CPC, and ROAS. Auto-saves to URL for easy sharing.</p>
+        <div class="badge" id="geo-status"><div class="pulse"></div> Connecting Network...</div>
+        <h1>Fluid ROI</h1>
+        <p class="subtitle">The ultimate digital marketing calculator. Type your numbers below to see the liquid engine render your metrics in real-time.</p>
     </div>
 
     <div class="grid-container">
@@ -148,28 +176,36 @@
             
             <div class="actions">
                 <button class="btn btn-secondary" onclick="downloadCSV()">⬇ Download CSV</button>
-                <button class="btn btn-primary" onclick="shareLink()">🔗 Share Results</button>
+                <button class="btn btn-primary" onclick="shareLink()">🔗 Share URL</button>
             </div>
         </div>
     </div>
 
-    <div class="explanation" id="explanation-box">
-        Loading analysis...
+    <div class="analysis-section">
+        <div class="formula-box">
+            <div class="formula-title">Mathematical Proof (CPM)</div>
+            <div class="formula-eq">CPM = ( Total Cost ÷ Total Impressions ) × 1000</div>
+            <div class="formula-live">
+                CPM = ( <span class="highlight-num" id="eq-cost">0</span> ÷ <span class="highlight-num" id="eq-imp">0</span> ) × 1000 = <span class="highlight-ans" id="eq-ans">0</span>
+            </div>
+        </div>
+        
+        <div class="explanation-text" id="explanation-box">
+            Waiting for data input...
+        </div>
     </div>
 </div>
 
-<div id="toast">Link copied to clipboard!</div>
+<div id="toast">Link Copied! Ready to share.</div>
 
 <script>
-    // Global State
     let currentCPM = 0, currentCPC = 0, currentROAS = 0, netProfit = 0;
     
-    // Comprehensive Currency List (60+ World Currencies)
+    // Comprehensive Currency List
     const worldCurrencies = [
-        "USD", "LKR", "EUR", "GBP", "INR", "AUD", "CAD", "SGD", "AED", "SAR", "QAR", "NZD", "ZAR", "JPY", "CNY", "CHF", "HKD", "SEK", "KRW", "MYR", "THB", "IDR", "PHP", "VND", "BRL", "RUB", "MXN", "TRY", "PKR", "BDT", "NPR", "KWD", "OMR", "BHD", "JOD", "EGP", "NGN", "KES", "GHS", "TZS", "UGX", "MAD", "ARS", "CLP", "COP", "PEN", "ILS", "PLN", "CZK", "HUF", "RON", "BGN", "DKK", "NOK", "ISK", "TWD", "MOP", "FJD", "XPF", "BND"
+        "USD", "LKR", "EUR", "GBP", "INR", "AUD", "CAD", "SGD", "AED", "SAR", "QAR", "NZD", "ZAR", "JPY", "CNY", "CHF", "HKD", "SEK", "KRW", "MYR", "THB", "IDR", "PHP", "VND", "BRL", "RUB", "MXN", "TRY", "PKR", "BDT"
     ];
 
-    // Initialize Dropdown
     function populateCurrencies() {
         const select = document.getElementById('currency');
         worldCurrencies.forEach(code => {
@@ -179,7 +215,6 @@
         });
     }
 
-    // Advanced Formatting Function
     function formatCurrency(amount, currencyType) {
         if (!isFinite(amount) || isNaN(amount)) return "0.00";
         return new Intl.NumberFormat('en-US', { style: 'currency', currency: currencyType }).format(amount);
@@ -189,22 +224,19 @@
         return new Intl.NumberFormat('en-US').format(num);
     }
 
-    // IP Geolocation API call for Auto Currency
     async function locateUser() {
         populateCurrencies();
         const statusText = document.getElementById('geo-status');
         const urlParams = new URLSearchParams(window.location.search);
         
-        // Check if URL has shared data, if so, load it
         if(urlParams.has('s')) {
             document.getElementById('spend').value = urlParams.get('s');
             document.getElementById('impressions').value = urlParams.get('i');
             document.getElementById('clicks').value = urlParams.get('cl');
             document.getElementById('revenue').value = urlParams.get('r');
             document.getElementById('currency').value = urlParams.get('c') || 'USD';
-            statusText.innerHTML = `<div class="pulse" style="background:#38bdf8;box-shadow:0 0 10px #38bdf8;"></div> Shared Report Loaded`;
+            statusText.innerHTML = `<div class="pulse" style="background:#8b5cf6;box-shadow:0 0 10px #8b5cf6;"></div> Shared Data Loaded`;
         } else {
-            // Auto Detect via IP
             try {
                 const response = await fetch('https://ipapi.co/json/');
                 const data = await response.json();
@@ -213,16 +245,12 @@
                     statusText.innerHTML = `<div class="pulse"></div> Live: ${data.city}, ${data.country_name}`;
                 }
             } catch (e) {
-                console.log("AdBlocker blocked IP detection. Defaulting to USD.");
+                statusText.innerHTML = `<div class="pulse" style="background:#e2e8f0;"></div> Global Fallback`;
             }
         }
-        
         changeCurrency();
-        // Easy input: Select text in spend box immediately
-        setTimeout(() => document.getElementById('spend').select(), 100);
     }
 
-    // When Currency Dropdown Changes
     function changeCurrency() {
         const curr = document.getElementById('currency').value;
         document.getElementById('lbl-curr').innerText = curr;
@@ -231,7 +259,6 @@
         runCalculations();
     }
 
-    // Main Math Logic
     function runCalculations() {
         const spend = parseFloat(document.getElementById('spend').value) || 0;
         const impressions = parseFloat(document.getElementById('impressions').value) || 0;
@@ -239,13 +266,12 @@
         const revenue = parseFloat(document.getElementById('revenue').value) || 0;
         const currency = document.getElementById('currency').value;
 
-        // The Math
         currentCPM = (spend / impressions) * 1000;
         currentCPC = (spend / clicks);
         currentROAS = (spend > 0) ? (revenue / spend) * 100 : 0;
         netProfit = revenue - spend;
 
-        // Update UI
+        // UI Updates
         document.getElementById('display-cpm').innerText = isFinite(currentCPM) ? formatCurrency(currentCPM, currency) : "-";
         document.getElementById('display-cpc').innerText = isFinite(currentCPC) ? formatCurrency(currentCPC, currency) : "-";
         
@@ -254,44 +280,47 @@
         
         if(isFinite(currentROAS)) {
             let profitClass = netProfit >= 0 ? 'profit-positive' : 'profit-negative';
-            let profitBg = netProfit >= 0 ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)';
-            let profitBorder = netProfit >= 0 ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)';
+            let profitBg = netProfit >= 0 ? 'rgba(16,185,129,0.15)' : 'rgba(244,63,94,0.15)';
+            let profitBorder = netProfit >= 0 ? 'rgba(16,185,129,0.4)' : 'rgba(244,63,94,0.4)';
             let sign = netProfit >= 0 ? '+' : '';
             
-            roasValEl.innerHTML = `${currentROAS.toFixed(0)}% <span class="badge-pill" style="background:${profitBg}; color:${netProfit >= 0 ? '#10b981' : '#ef4444'}">${sign}${formatCurrency(netProfit, currency)} Profit</span>`;
+            roasValEl.innerHTML = `${currentROAS.toFixed(0)}% <span class="badge-pill" style="background:${profitBg}; color:${netProfit >= 0 ? '#10b981' : '#f43f5e'}">${sign}${formatCurrency(netProfit, currency)} Profit</span>`;
             roasCard.style.borderColor = profitBorder;
         } else {
             roasValEl.innerText = "-";
         }
         
-        // Update Explanation Text
         updateExplanation(spend, impressions, clicks, revenue, currency);
     }
     
-    // Generates the human-readable explanation
     function updateExplanation(s, i, c, r, curr) {
+        // Update Live Formula
+        document.getElementById('eq-cost').innerText = formatCurrency(s, curr);
+        document.getElementById('eq-imp').innerText = formatNumber(i);
+        document.getElementById('eq-ans').innerText = isFinite(currentCPM) ? formatCurrency(currentCPM, curr) : "0.00";
+
+        // Update Text
         const box = document.getElementById('explanation-box');
-        if(s === 0 || i === 0) { box.innerHTML = "Enter your campaign numbers above to see the analysis."; return; }
+        if(s === 0 || i === 0) { box.innerHTML = "Begin typing your campaign data to generate a live analysis."; return; }
         
-        let text = `Your campaign reached <span class="highlight">${formatNumber(i)}</span> people at a total cost of <span class="highlight">${formatCurrency(s, curr)}</span>. `;
-        text += `This means you paid <span class="highlight">${formatCurrency(currentCPM, curr)} for every 1,000 times</span> your ad was shown (CPM).<br><br>`;
+        let text = `By investing <span class="hl">${formatCurrency(s, curr)}</span>, your campaign reached <span class="hl">${formatNumber(i)}</span> impressions. `;
+        text += `As shown in the formula above, you are effectively paying <span class="hl">${formatCurrency(currentCPM, curr)}</span> for every 1,000 times your ad is viewed (CPM).<br><br>`;
         
         if(c > 0) {
             let ctr = ((c/i)*100).toFixed(2);
-            text += `Out of those people, <span class="highlight">${formatNumber(c)}</span> clicked your ad (a ${ctr}% Click-Through Rate), costing you <span class="highlight">${formatCurrency(currentCPC, curr)} per click</span> (CPC). `;
+            text += `Out of those views, <span class="hl">${formatNumber(c)}</span> users engaged and clicked (a ${ctr}% Click-Through Rate). This translates to an acquisition cost of <span class="hl">${formatCurrency(currentCPC, curr)} per click</span> (CPC). `;
         }
         
         if(r > 0) {
-            let outcomeText = netProfit >= 0 ? 'made a profit of' : 'took a loss of';
-            text += `Overall, you generated <span class="highlight">${formatCurrency(r, curr)}</span> in revenue. `;
-            text += `Because you spent ${formatCurrency(s, curr)}, you ${outcomeText} <span class="highlight">${formatCurrency(Math.abs(netProfit), curr)}</span>. `;
-            text += `Your ROAS is ${currentROAS.toFixed(0)}%, meaning for every ${formatCurrency(1, curr)} you spent, you got ${formatCurrency(r/s, curr)} back.`;
+            let outcomeText = netProfit >= 0 ? 'secured a net profit of' : 'absorbed a net loss of';
+            text += `Financially, the campaign generated <span class="hl">${formatCurrency(r, curr)}</span> in total revenue. `;
+            text += `Factoring in your initial spend, you ${outcomeText} <span class="hl" style="color:${netProfit >= 0 ? '#10b981' : '#f43f5e'}">${formatCurrency(Math.abs(netProfit), curr)}</span>. `;
+            text += `Your Return on Ad Spend is ${currentROAS.toFixed(0)}%, meaning every ${formatCurrency(1, curr)} invested returned ${formatCurrency(r/s, curr)}.`;
         }
         
         box.innerHTML = text;
     }
 
-    // Share Button Logic (Generates URL with parameters)
     function shareLink() {
         const url = new URL(window.location.origin + window.location.pathname);
         url.searchParams.set('c', document.getElementById('currency').value);
@@ -307,10 +336,11 @@
         });
     }
 
-    // CSV Download Logic
     function downloadCSV() {
         const curr = document.getElementById('currency').value;
         const data = [
+            ["Liquid ROI - Campaign Report"],
+            [""],
             ["Metric", "Value"],
             ["Currency", curr],
             ["Total Ad Spend", document.getElementById('spend').value],
@@ -327,15 +357,15 @@
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `Campaign_Report_${curr}.csv`);
+        link.setAttribute("download", `Liquid_ROI_Report_${curr}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     }
 
-    // Run on startup
     window.onload = locateUser;
 </script>
 
 </body>
 </html>
+
