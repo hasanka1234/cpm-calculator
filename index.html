@@ -3,200 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Ad Calculator | Pro Marketers</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Pro Ad Analytics | Premium ROI Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
     <style>
-        /* General Setup */
-        body, html { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background-color: #0f172a; color: #ffffff; overflow-x: hidden; }
+        /* === BASE & RESET === */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; }
+        body { background-color: #050505; color: #ffffff; min-height: 100vh; overflow-x: hidden; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; }
         
-        /* Animated Gradient Background */
-        .bg-animation {
-            position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; z-index: -1;
-            background: linear-gradient(-45deg, #0f172a, #1e293b, #3b0764, #0f172a);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+        /* === ANIMATED GLOWING BACKGROUND ORBS === */
+        .ambient-bg { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; background: #050505; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.6; animation: floatOrb 12s infinite alternate ease-in-out; }
+        .orb-1 { width: 400px; height: 400px; background: #4f46e5; top: -10%; left: -10%; }
+        .orb-2 { width: 500px; height: 500px; background: #ec4899; bottom: -20%; right: -10%; animation-duration: 15s; animation-direction: alternate-reverse; }
+        .orb-3 { width: 300px; height: 300px; background: #06b6d4; top: 40%; left: 40%; animation-duration: 18s; }
+        
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.2); }
         }
-        @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
 
-        /* Hero Section (Video Placeholder) */
-        .hero { text-align: center; padding: 60px 20px 40px; position: relative; }
-        .hero h1 { font-size: 3rem; font-weight: 800; margin: 0; background: -webkit-linear-gradient(#38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px;}
-        .hero p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 10px auto; }
-
-        /* Glassmorphism Calculator Container */
-        .calc-container {
-            max-width: 900px; margin: 0 auto 50px auto; padding: 40px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 24px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex; flex-wrap: wrap; gap: 40px;
-            transition: transform 0.3s ease;
+        /* === MAIN CONTAINER (GLASSMORPHISM) === */
+        .dashboard {
+            width: 100%; max-width: 1000px; background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            padding: 40px; position: relative; z-index: 10;
         }
-        .calc-container:hover { transform: translateY(-5px); }
 
-        /* Input Section */
-        .inputs-col, .results-col { flex: 1; min-width: 300px; }
-        .input-group { margin-bottom: 25px; position: relative; }
-        .input-group label { display: block; font-size: 0.85rem; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: 600; }
-        .input-group input, .input-group select {
-            width: 100%; padding: 15px; border-radius: 12px;
-            background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #fff; font-size: 1.1rem; font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease; box-sizing: border-box; outline: none;
+        /* === HEADER === */
+        .header { text-align: center; margin-bottom: 40px; }
+        .badge { display: inline-block; padding: 6px 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50px; font-size: 0.85rem; color: #a8b2d1; letter-spacing: 1px; margin-bottom: 15px; text-transform: uppercase; font-weight: 600;}
+        #geo-status { color: #10b981; } /* Green color for tracking status */
+        h1 { font-size: 3rem; font-weight: 800; line-height: 1.2; margin-bottom: 10px; background: linear-gradient(to right, #fff, #a8b2d1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        p.subtitle { color: #8892b0; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* === LAYOUT GRID === */
+        .grid-container { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; }
+        @media (max-width: 768px) { .grid-container { grid-template-columns: 1fr; } h1 { font-size: 2.2rem; } }
+
+        /* === INPUT SECTION === */
+        .input-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.9rem; color: #a8b2d1; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
+        input, select {
+            width: 100%; padding: 16px; border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff; font-size: 1.1rem; outline: none; transition: all 0.3s ease;
         }
-        .input-group input:focus, .input-group select:focus { border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
-
-        /* Results Section */
+        input:focus, select:focus { border-color: #ec4899; box-shadow: 0 0 20px rgba(236, 72, 153, 0.2); background: rgba(0, 0, 0, 0.5); }
+        
+        /* === RESULTS SECTION === */
+        .results-grid { display: flex; flex-direction: column; gap: 20px; }
         .result-card {
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-            padding: 20px; border-radius: 16px; margin-bottom: 20px;
-            border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+            border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 25px;
+            transition: transform 0.3s ease, border-color 0.3s ease; position: relative; overflow: hidden;
         }
-        .result-card::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-            transition: 0.5s;
-        }
-        .result-card:hover::before { left: 100%; }
-        .result-title { font-size: 0.8rem; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; }
-        .result-value { font-size: 2.2rem; font-weight: 800; color: #fff; margin-top: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        .highlight-text { color: #34d399; } /* Green for profit/good numbers */
+        .result-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
+        
+        /* Shimmer effect on hover */
+        .result-card::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent); transform: skewX(-20deg); transition: 0.5s; }
+        .result-card:hover::after { left: 150%; }
 
-        .status-badge { display: inline-block; padding: 5px 12px; background: rgba(56, 189, 248, 0.2); color: #38bdf8; border-radius: 20px; font-size: 0.75rem; margin-bottom: 20px; font-weight: 600; }
+        .res-title { font-size: 0.9rem; color: #8892b0; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
+        .res-val { font-size: 2.8rem; font-weight: 800; color: #ffffff; text-shadow: 0 4px 20px rgba(0,0,0,0.5); display: flex; align-items: baseline; gap: 5px;}
+        
+        /* Dynamic Profit Colors */
+        .profit-positive { color: #10b981; } /* Neon Green */
+        .profit-negative { color: #f43f5e; } /* Neon Red */
+        .profit-label { font-size: 1rem; font-weight: 600; padding: 4px 10px; border-radius: 8px; background: rgba(255,255,255,0.1); margin-left: 10px; }
     </style>
 </head>
 <body>
 
-<div class="bg-animation"></div>
-
-<div class="hero">
-    <div class="status-badge" id="geo-status">Detecting Location...</div>
-    <h1>Campaign Pro</h1>
-    <p>Analyze your ad performance with precision. Enter your metrics below to calculate CPM, CPC, and ROAS in real-time.</p>
+<div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
 </div>
 
-<div class="calc-container">
-    <div class="inputs-col">
-        <div class="input-group">
-            <label>Currency</label>
-            <select id="currency" onchange="calculate()">
-                <option value="USD">USD ($)</option>
-                <option value="LKR">LKR (Rs)</option>
-                <option value="EUR">EUR (€)</option>
-                <option value="GBP">GBP (£)</option>
-            </select>
-        </div>
-        <div class="input-group">
-            <label>Total Ad Spend</label>
-            <input type="number" id="spend" value="1000" oninput="calculate()">
-        </div>
-        <div class="input-group">
-            <label>Total Impressions</label>
-            <input type="number" id="impressions" value="250000" oninput="calculate()">
-        </div>
-        <div class="input-group">
-            <label>Total Clicks</label>
-            <input type="number" id="clicks" value="5000" oninput="calculate()">
-        </div>
-        <div class="input-group">
-            <label>Total Revenue</label>
-            <input type="number" id="revenue" value="4500" oninput="calculate()">
-        </div>
+<div class="dashboard">
+    <div class="header">
+        <div class="badge" id="geo-status">📡 Initializing Analytics...</div>
+        <h1>Campaign Pro</h1>
+        <p class="subtitle">Enter your metrics below. We calculate CPM, CPC, and Return on Ad Spend (ROAS) instantly.</p>
     </div>
 
-    <div class="results-col">
-        <div class="result-card">
-            <div class="result-title">Cost Per 1000 Impressions (CPM)</div>
-            <div class="result-value" id="res-cpm">-</div>
+    <div class="grid-container">
+        <div class="inputs">
+            <div class="input-group">
+                <label>Currency & Region</label>
+                <select id="currency" onchange="runCalculations()">
+                    <option value="USD">USD - US Dollar ($)</option>
+                    <option value="LKR">LKR - Sri Lankan Rupee (Rs)</option>
+                    <option value="EUR">EUR - Euro (€)</option>
+                    <option value="GBP">GBP - British Pound (£)</option>
+                    <option value="INR">INR - Indian Rupee (₹)</option>
+                    <option value="AUD">AUD - Australian Dollar ($)</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Total Ad Spend / Cost</label>
+                <input type="number" id="spend" value="1500" oninput="runCalculations()">
+            </div>
+            <div class="input-group">
+                <label>Total Impressions</label>
+                <input type="number" id="impressions" value="500000" oninput="runCalculations()">
+            </div>
+            <div class="input-group">
+                <label>Total Clicks Generated</label>
+                <input type="number" id="clicks" value="12500" oninput="runCalculations()">
+            </div>
+            <div class="input-group">
+                <label>Total Sales / Revenue</label>
+                <input type="number" id="revenue" value="6500" oninput="runCalculations()">
+            </div>
         </div>
-        <div class="result-card">
-            <div class="result-title">Cost Per Click (CPC)</div>
-            <div class="result-value" id="res-cpc">-</div>
-        </div>
-        <div class="result-card">
-            <div class="result-title">Return on Ad Spend (ROAS)</div>
-            <div class="result-value highlight-text" id="res-roas">-</div>
+
+        <div class="results-grid">
+            <div class="result-card">
+                <div class="res-title">Cost Per 1000 Impressions (CPM)</div>
+                <div class="res-val" id="display-cpm">-</div>
+            </div>
+            <div class="result-card">
+                <div class="res-title">Cost Per Click (CPC)</div>
+                <div class="res-val" id="display-cpc">-</div>
+            </div>
+            <div class="result-card" style="border: 1px solid rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.05);">
+                <div class="res-title" style="color: #10b981;">Return on Ad Spend (ROAS)</div>
+                <div class="res-val" id="display-roas">-</div>
+                <div id="profit-badge" style="margin-top: 10px; display: inline-block;"></div>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    async function autoDetectCurrency() {
-        document.getElementById('geo-status').innerText = "Connecting to Satellite...";
+    // System Variables
+    let currentCPM = 0, currentCPC = 0, currentROAS = 0;
+
+    // Advanced Formatting Function
+    function formatCurrency(amount, currencyType) {
+        if (!isFinite(amount) || isNaN(amount)) return "-";
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: currencyType, maximumFractionDigits: 2 }).format(amount);
+    }
+
+    // IP Geolocation API call for Auto Currency
+    async function locateUser() {
+        const statusText = document.getElementById('geo-status');
         try {
             const response = await fetch('https://ipapi.co/json/');
             const data = await response.json();
+            
             if(data.currency) {
-                const currencySelect = document.getElementById('currency');
-                for(let i=0; i < currencySelect.options.length; i++) {
-                    if(currencySelect.options[i].value === data.currency) {
-                        currencySelect.selectedIndex = i; break;
+                const selectElement = document.getElementById('currency');
+                for(let i=0; i < selectElement.options.length; i++) {
+                    if(selectElement.options[i].value === data.currency) {
+                        selectElement.selectedIndex = i;
+                        break;
                     }
                 }
-                document.getElementById('geo-status').innerText = `Localized for: ${data.country_name}`;
+                statusText.innerHTML = `🟢 Live: ${data.city}, ${data.country_name}`;
             }
-        } catch (error) {
-            document.getElementById('geo-status').innerText = "Global Mode Active";
+        } catch (e) {
+            statusText.innerHTML = "🟡 Global Mode Active";
         }
-        calculate();
+        runCalculations(); // Run math after checking location
     }
 
-    function formatMoney(amount, currencyCode) {
-        if (!isFinite(amount) || isNaN(amount)) return "-";
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: currencyCode }).format(amount);
-    }
+    // Smooth Number Animation Function
+    function animateCounter(elementId, startVal, endVal, duration, formatFunc, currencyCode) {
+        const el = document.getElementById(elementId);
+        let startTime = null;
 
-    // Number counting animation logic
-    function animateValue(objId, start, end, duration, formatFn, currencyCode) {
-        let startTimestamp = null;
-        const step = (timestamp) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-            // Ease out function for smoother stop
-            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-            const currentVal = progress * (end - start) + start;
-            
-            document.getElementById(objId).innerText = formatFn ? formatFn(currentVal, currencyCode) : currentVal.toFixed(2) + "%";
-            
+        function step(currentTime) {
+            if (!startTime) startTime = currentTime;
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            // Ease-out formula
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            const currentNumber = progress * (endVal - startVal) + startVal;
+
+            if(formatFunc) {
+                el.innerText = formatFunc(currentNumber, currencyCode);
+            } else {
+                el.innerText = currentNumber.toFixed(0) + "%";
+            }
+
             if (progress < 1) {
                 window.requestAnimationFrame(step);
             } else {
-                document.getElementById(objId).innerText = formatFn ? formatFn(end, currencyCode) : end.toFixed(2) + "%";
+                // Ensure exact final number
+                el.innerText = formatFunc ? formatFunc(endVal, currencyCode) : endVal.toFixed(0) + "%";
             }
-        };
+        }
         window.requestAnimationFrame(step);
     }
 
-    // Store previous values for animation
-    let prevCpm = 0, prevCpc = 0, prevRoas = 0;
-
-    function calculate() {
+    // Main Math Logic
+    function runCalculations() {
         const spend = parseFloat(document.getElementById('spend').value) || 0;
         const impressions = parseFloat(document.getElementById('impressions').value) || 0;
         const clicks = parseFloat(document.getElementById('clicks').value) || 0;
         const revenue = parseFloat(document.getElementById('revenue').value) || 0;
         const currency = document.getElementById('currency').value;
 
-        let cpm = (spend / impressions) * 1000;
-        let cpc = (spend / clicks);
-        let roas = (revenue / spend) * 100;
+        // The Math
+        const newCPM = (spend / impressions) * 1000;
+        const newCPC = (spend / clicks);
+        const newROAS = (spend > 0) ? (revenue / spend) * 100 : 0;
+        const netProfit = revenue - spend;
 
-        // Animate the numbers instead of just replacing them
-        if(isFinite(cpm)) { animateValue("res-cpm", prevCpm, cpm, 800, formatMoney, currency); prevCpm = cpm; }
-        if(isFinite(cpc)) { animateValue("res-cpc", prevCpc, cpc, 800, formatMoney, currency); prevCpc = cpc; }
+        // Trigger Animations (Only if numbers change)
+        if(isFinite(newCPM)) { animateCounter("display-cpm", currentCPM, newCPM, 1000, formatCurrency, currency); currentCPM = newCPM; }
+        if(isFinite(newCPC)) { animateCounter("display-cpc", currentCPC, newCPC, 1000, formatCurrency, currency); currentCPC = newCPC; }
         
-        if(isFinite(roas)) {
-            const roasElement = document.getElementById('res-roas');
-            roasElement.innerText = roas.toFixed(0) + "% ROI";
-            // Change color based on profit
-            if(roas < 100) roasElement.style.color = "#ef4444"; // Red if losing money
-            else roasElement.style.color = "#34d399"; // Green if making money
+        if(isFinite(newROAS)) { 
+            animateCounter("display-roas", currentROAS, newROAS, 1000, null, null); 
+            currentROAS = newROAS; 
+            
+            // Profit Badge Logic
+            const badge = document.getElementById('profit-badge');
+            const roasValue = document.getElementById('display-roas');
+            
+            if(netProfit >= 0) {
+                roasValue.className = "res-val profit-positive";
+                badge.innerHTML = `<span class="profit-label" style="background: rgba(16, 185, 129, 0.2); color: #10b981;">+ ${formatCurrency(netProfit, currency)} Profit</span>`;
+            } else {
+                roasValue.className = "res-val profit-negative";
+                badge.innerHTML = `<span class="profit-label" style="background: rgba(244, 63, 94, 0.2); color: #f43f5e;">- ${formatCurrency(Math.abs(netProfit), currency)} Loss</span>`;
+            }
         }
     }
 
-    window.onload = autoDetectCurrency;
+    // Run on page load
+    window.onload = locateUser;
 </script>
 
 </body>
